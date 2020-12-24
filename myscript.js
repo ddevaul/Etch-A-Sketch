@@ -28,15 +28,16 @@ for (let i = 0; i < numColumns**2; i++){
 
 function giveBoxSecondEventListener(){
     let boxes = document.querySelectorAll('.box');
-    boxes.forEach(b => b.addEventListener('mouseover', paintBox(this)));
+    boxes.forEach(b => b.addEventListener('mouseover', paintBox));
 }
 
 function removeBoxSecondEventListener(){
     console.log('now it shouldnt draw');
     let boxes = document.querySelectorAll('.box');
-    boxes.forEach(b => b.removeEventListener('mouseover', paintBox()));
+    boxes.forEach(b => b.removeEventListener('mouseover', paintBox));
 }
 
-function paintBox(box){
+function paintBox(event){
+    let box = event.target;
     box.style.backgroundColor = 'black';
 }
