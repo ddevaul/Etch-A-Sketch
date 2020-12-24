@@ -1,4 +1,4 @@
-let numColumns = 25;
+let numColumns = 8;
 let paletteSize = 400;
 //going to do this using 
 let gridParent = document.querySelector('#gridParent'); 
@@ -26,18 +26,23 @@ for (let i = 0; i < numColumns**2; i++){
     gridParent.appendChild(box);
 }
 
-function giveBoxSecondEventListener(){
+function giveBoxSecondEventListener(event){
+    paintBox(event);
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.addEventListener('mouseover', paintBox));
+
+    // boxes.forEach(function(b){
+    //     b.addEventListener('mouseover', paintBox);
+    // });
 }
 
+
 function removeBoxSecondEventListener(){
-    console.log('now it shouldnt draw');
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.removeEventListener('mouseover', paintBox));
 }
 
+
 function paintBox(event){
-    let box = event.target;
-    box.style.backgroundColor = 'black';
+    event.target.style.backgroundColor = 'black';
 }
