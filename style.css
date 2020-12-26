@@ -1,16 +1,38 @@
+#testdiv{
+    cursor: url(pen.png);
+}
+
 .box{
-    background-color: white;
     height: 100%;
-    width: 100%;
-    border: 1px solid black;
+    width: 100%;  
+    
+   
+}
+
+.box-border{
+    box-sizing: border-box;
+    border: 1px solid rgb(109, 109, 109);
+}
+
+
+.drawing{
+    cursor: url('cursor.cur'), default;
+}
+
+.erasing{
+    cursor: url('eraser.cur'), default;
 }
 
 #gridParent{
+    border: 1px solid black;
     margin: 0;
     padding: 0;
     position: relative;
-    top: 25%;
-    justify-content: center;
+    top: 5%;
+    left: 55%;
+    justify-self: center;
+    width: 600px;
+
 
 }
 body{
