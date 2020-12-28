@@ -5,23 +5,49 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <button id="clear">Clear</button>
-        <button id="eraser">Eraser</button>
-        <button id="pen">Pen</button>
-        <button id="colorPickerDiv"><input type="color" id="colorPicker" name="favcolor" value="#ff0000"></button>
-        <!-- <label>8x8<input type="radio" name="group"></label>
-        <label>25x25<input type="radio" name="group"></label>
-        <label>50x50<input type="radio" name="group"></label>
-        <label>100x100<input type="radio" name="group"></label> -->
-        <button class='size' data-size="4">4x4</button>
-        <button class='size' data-size="8">8x8</button>
-        <button class='size' data-size="16">16x16</button>
-        <button class='size' data-size="32">32x32</button>
-        <button class='size' data-size="64">64x64</button>
-        <button class='size' data-size="128">128x128</button>
-        <button class='grid' id='grid'>Grid</button>
-        <button class='grid' id='nogrid'>No Grid</button>
-        <div id="gridParent"></div> 
+        <div id="header">
+            <h1>Desi DeVaul's Sketchbook</h1>
+        </div>
+        <div id="two-columns">
+            <div class="left">
+                <div class="drawing-options">
+                    <h3>Select between pen, eraser, and different pen colors!</h3>
+                    <div class="drawing-options-grid">
+                        <button id="eraser">Eraser</button>
+                        <button id="pen">Pen</button>
+                        <input type="color" id="colorPicker" name="favcolor" value="#ff0000"> 
+                </div>
+        
+
+                    <!-- <div id="color-wheel">
+                        <h4>Pick a color:</h4>
+                        <input type="color" id="colorPicker" name="favcolor" value="#ff0000">
+                    </div> -->
+                </div>
+                <div class="sizing">
+                    <h3>Select the size of the grid:</h3>
+                    <div id="sizing-holder">
+                        <button class='size' data-size="4">4x4</button>
+                        <button class='size' data-size="8">8x8</button>
+                        <button class='size' data-size="16">16x16</button>
+                        <button class='size' data-size="32">32x32</button>
+                        <button class='size' data-size="64">64x64</button>
+                        <button class='size' data-size="128">128x128</button>
+                    </div>
+                </div>
+                <div class="grid-options">
+                    <h3>Turn the gridlines on or off:</h3>
+                    <button class='grid' id='grid'>Grid</button>
+                    <button class='grid' id='nogrid'>No Grid</button>
+                </div>
+                <div class="clear">
+                    <h3>Clear the canvas to start over</h3>
+                    <button id="clear" >Clear</button>
+                </div> 
+            </div>
+            
+            <div id="gridParent" class="right"></div> 
+        </div>
     </body>
     <script src="myscript.js"></script>
 </html>

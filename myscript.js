@@ -1,6 +1,6 @@
 let paletteSize = 600;
 let gridParent = document.querySelector('#gridParent'); 
-let paintColor = 'black';
+let paintColor = 'red';
 // the side has to be some mathematical fucntion so that the large container is
 // always the same size
 
@@ -20,6 +20,7 @@ function setGrid(numColumns){
         let box = document.createElement('div');
         box.classList.add('box'); 
         box.classList.add('box-border'); 
+        box.style.backgroundColor = 'white';
         box.addEventListener('mousedown', giveBoxSecondEventListener);
         box.addEventListener('mouseup', removeBoxSecondEventListener);
         gridParent.appendChild(box);
@@ -28,6 +29,8 @@ function setGrid(numColumns){
      + ` grid-template-rows: ${str};`); 
 
     gridParent.classList.add('drawing');
+    penBtn.classList.add('selected');
+
 }
 
 
@@ -38,6 +41,7 @@ sizes.forEach(b => b.addEventListener('click', function(e){
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.style.backgroundColor = 'white');
     setGrid(Number(e.target.dataset.size));
+    deselectGridSizeBtns(e);
 }));
 
 
@@ -52,6 +56,8 @@ eraserBtn.addEventListener('click', function(){
     paintColor = 'white';
     gridParent.classList.remove('drawing');
     gridParent.classList.add('erasing');
+    penBtn.classList.remove('selected');
+    eraserBtn.classList.add('selected');
 });
 
 const penBtn = document.querySelector('#pen');
@@ -59,10 +65,11 @@ penBtn.addEventListener('click', function(){
     paintColor = picker.value;
     gridParent.classList.remove('erasing');
     gridParent.classList.add('drawing');
+    eraserBtn.classList.remove('selected');
+    penBtn.classList.add('selected');
 });
 
 const picker = document.getElementById("colorPicker");
-picker.value = '#000000';
 picker.addEventListener('input', function(){
     paintColor = picker.value;
 });
@@ -71,12 +78,16 @@ const gridBtn = document.querySelector('#grid');
 gridBtn.addEventListener('click', function(){
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.classList.add('box-border'));
+    gridBtn.classList.add('selected');
+    noGridBtn.classList.remove('selected');
 });
 
 const noGridBtn = document.querySelector('#nogrid');
 noGridBtn.addEventListener('click', function(){
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.classList.remove('box-border'));
+    noGridBtn.classList.add('selected');
+    gridBtn.classList.remove('selected');
 });
 
 // maybe look into debouncing 
@@ -86,6 +97,12 @@ noGridBtn.addEventListener('click', function(){
 // different event listener that sees if the mouse is over them
 // if the mouse is over them, change the color of the box
 
+
+function deselectGridSizeBtns(e){
+    let selected = e.target;
+    sizes.forEach(b => b.classList.remove('selected'));
+    selected.classList.add('selected');
+}
 
 function giveBoxSecondEventListener(event){
     paintBox(event);
@@ -108,5 +125,12 @@ function paintBox(event){
 }
 
 
-setGrid(64);
+setGrid(32);
+let defaultGridSizeBtn = document.querySelector('.size[data-size="32"]');
+defaultGridSizeBtn.classList.add('selected');
+
+let defaultGridBtn = document.querySelector('#grid');
+defaultGridBtn.classList.add('selected');
+
+
 
