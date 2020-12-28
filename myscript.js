@@ -41,6 +41,8 @@ sizes.forEach(b => b.addEventListener('click', function(e){
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.style.backgroundColor = 'white');
     setGrid(Number(e.target.dataset.size));
+    noGridBtn.classList.remove('selected');
+    gridBtn.classList.add('selected');
     deselectGridSizeBtns(e);
 }));
 
