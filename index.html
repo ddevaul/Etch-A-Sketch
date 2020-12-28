@@ -13,16 +13,12 @@
                 <div class="drawing-options">
                     <h3>Select between pen, eraser, and different pen colors!</h3>
                     <div class="drawing-options-grid">
-                        <button id="eraser">Eraser</button>
-                        <button id="pen">Pen</button>
+                        <button class="do" id="eraser">Eraser</button>
+                        <button class="do" id="pen">Pen</button>
                         <input type="color" id="colorPicker" name="favcolor" value="#ff0000"> 
-                </div>
-        
-
-                    <!-- <div id="color-wheel">
-                        <h4>Pick a color:</h4>
-                        <input type="color" id="colorPicker" name="favcolor" value="#ff0000">
-                    </div> -->
+                        <button class="do" id="random-color">Random Color</button>
+                        <button class="do" id="gray-scale">Gray Scale</button>
+                    </div>
                 </div>
                 <div class="sizing">
                     <h3>Select the size of the grid:</h3>
@@ -33,6 +29,7 @@
                         <button class='size' data-size="32">32x32</button>
                         <button class='size' data-size="64">64x64</button>
                         <button class='size' data-size="128">128x128</button>
+                        <button class='size' id="custom">Custom</button>
                     </div>
                 </div>
                 <div class="grid-options">

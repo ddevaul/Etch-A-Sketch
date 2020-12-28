@@ -1,6 +1,11 @@
+// still a glitch after the user selects a new color but was previously using
+// the random color or grayscale functions
 let paletteSize = 600;
 let gridParent = document.querySelector('#gridParent'); 
 let paintColor = 'red';
+let randomColor = false;
+let grayScale = false;
+
 // the side has to be some mathematical fucntion so that the large container is
 // always the same size
 
@@ -30,11 +35,12 @@ function setGrid(numColumns){
 
     gridParent.classList.add('drawing');
     penBtn.classList.add('selected');
-
 }
 
-
-
+let input = document.querySelector('#colorPicker');
+input.addEventListener('change', function(){
+    deselectDrawingBtns(penBtn);
+});
 
 let sizes = document.querySelectorAll('.size');
 sizes.forEach(b => b.addEventListener('click', function(e){
@@ -52,23 +58,67 @@ clearBtn.addEventListener('click', function(){
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.style.backgroundColor = 'white');
 });
-
+// potential eraser bug
 const eraserBtn = document.querySelector('#eraser');
-eraserBtn.addEventListener('click', function(){
+eraserBtn.addEventListener('click', function(e){
     paintColor = 'white';
     gridParent.classList.remove('drawing');
     gridParent.classList.add('erasing');
-    penBtn.classList.remove('selected');
-    eraserBtn.classList.add('selected');
+    deselectDrawingBtns(eraserBtn);
 });
 
 const penBtn = document.querySelector('#pen');
-penBtn.addEventListener('click', function(){
+penBtn.addEventListener('click', function(e){
     paintColor = picker.value;
     gridParent.classList.remove('erasing');
     gridParent.classList.add('drawing');
-    eraserBtn.classList.remove('selected');
-    penBtn.classList.add('selected');
+    deselectDrawingBtns(penBtn);
+    randomColor = false;
+    grayScale = false;
+});
+
+// make a function that unhighlights/highlights 
+const randomBtn = document.querySelector('#random-color');
+randomBtn.addEventListener('click', function(e){
+    if (randomColor == true){
+        deselectDrawingBtns(penBtn);
+        randomColor = false;
+    }
+    else{
+        deselectDrawingBtns(randomBtn);
+        randomColor = true;
+    }
+    gridParent.classList.remove('erasing');
+    gridParent.classList.add('drawing');
+});
+
+
+const grayScaleBtn = document.querySelector('#gray-scale');
+grayScaleBtn.addEventListener('click', function(e){
+    if (grayScale == true){
+        deselectDrawingBtns(penBtn);
+        grayScale = false;
+    }
+    else{
+        deselectDrawingBtns(grayScaleBtn);
+        grayScale = true;
+    }
+    gridParent.classList.remove('erasing');
+    gridParent.classList.add('drawing');
+});
+
+const custom = document.querySelector('#custom');
+custom.addEventListener('click', function(e){
+    let size;
+    while (true){
+        console.log('this runs');
+        size = getSize();
+        if (1 <= size && size <= 100 && !isNaN(size)){
+            setGrid(size);
+            deselectGridSizeBtns(e);
+            break;
+        }
+    }
 });
 
 const picker = document.getElementById("colorPicker");
@@ -92,13 +142,18 @@ noGridBtn.addEventListener('click', function(){
     gridBtn.classList.remove('selected');
 });
 
-// maybe look into debouncing 
+function getSize(){
+    let size = Number(prompt('Enter a Number Between 1 and 100'));
+    return size;
+}
 
-// each box has an event listener that sees if the mouse is down
-// if the mouse is down, that triggers all the boxes to have a 
-// different event listener that sees if the mouse is over them
-// if the mouse is over them, change the color of the box
-
+function deselectDrawingBtns(btn){
+    let doBtns = document.querySelectorAll('.do');
+    doBtns.forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    randomColor = false;
+    grayScale = false;
+}
 
 function deselectGridSizeBtns(e){
     let selected = e.target;
@@ -123,7 +178,29 @@ function removeBoxSecondEventListener(){
 
 
 function paintBox(event){
-    event.target.style.backgroundColor = `${paintColor}`;
+    let square = event.target;
+    if (randomColor == true){
+        let hex = Math.floor((Math.random()*16777216)).toString(16);
+        square.style.backgroundColor = `#${hex}`;
+    }
+    else if (grayScale == true){
+        let start = 220;
+        let tenth = Math.ceil(start/10);
+        let grayness = Number(square.dataset.level);
+        if (!grayness){
+            square.setAttribute('data-level', '1');
+            square.style.backgroundColor = `rgb(${220}, ${220}, ${220})`;
+        }
+        else if (grayness < 10){
+            grayness += 1;
+            square.setAttribute('data-level', grayness);
+            let newValue = start - tenth*grayness;
+            square.style.backgroundColor = `rgb(${newValue}, ${newValue}, ${newValue})`;
+        }
+    }
+    else {
+        event.target.style.backgroundColor = `${paintColor}`;
+    }
 }
 
 
