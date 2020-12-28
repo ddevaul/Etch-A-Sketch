@@ -24,8 +24,8 @@ html{
     border: none;
     border-radius: 5%;
     box-shadow: 0px 0px 5px 5px rgb(145, 145, 145);
-    height: 50px;
-    width: 100px;
+    height: 40px;
+    width: 80px;
 }
 
 
@@ -43,11 +43,6 @@ h4{
     height: 100%;
 }
 
-input{
-    height: 10px;
-    width: 40px;
-    background-color: #dadada;
-}
 
 button{
     margin: 10px;
