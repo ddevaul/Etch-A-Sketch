@@ -1,8 +1,9 @@
 const canvasSize = 600;
 const gridParent = document.querySelector('#grid-parent'); 
-let paintColor = 'red';
+let paintColor = 'rgb(255, 0, 0';
 let randomColor = false;
 let grayScale = false;
+let colorGrabbing = false;
 
 // select the pen and use the pen cursor when a color is picked 
 const input = document.querySelector('#color-picker');
@@ -39,8 +40,7 @@ clearBtn.addEventListener('click', function(){
 const eraserBtn = document.querySelector('#eraser');
 eraserBtn.addEventListener('click', function(e){
     paintColor = 'white';
-    gridParent.classList.remove('drawing');
-    gridParent.classList.add('erasing');
+    changeCursor('erasing');
     deselectDrawingBtns(eraserBtn);
 });
 
@@ -48,8 +48,7 @@ eraserBtn.addEventListener('click', function(e){
 const penBtn = document.querySelector('#pen');
 penBtn.addEventListener('click', function(e){
     paintColor = input.value;
-    gridParent.classList.remove('erasing');
-    gridParent.classList.add('drawing');
+    changeCursor('drawing');
     deselectDrawingBtns(penBtn);
 });
 
@@ -64,8 +63,7 @@ randomBtn.addEventListener('click', function(e){
         deselectDrawingBtns(randomBtn);
         randomColor = true;
     }
-    gridParent.classList.remove('erasing');
-    gridParent.classList.add('drawing');
+    changeCursor('drawing');
 });
 
 // toggle the gray scale boolean and always update appropriate items for drawing
@@ -79,8 +77,23 @@ grayScaleBtn.addEventListener('click', function(e){
         deselectDrawingBtns(grayScaleBtn);
         grayScale = true;
     }
-    gridParent.classList.remove('erasing');
-    gridParent.classList.add('drawing');
+    changeCursor('drawing');
+});
+
+// when the user clicks on a box, the color picker input becomes the background 
+// color of that box. this button also toggles on and off
+const colorGrabBtn = document.querySelector('#color-grabber');
+colorGrabBtn.addEventListener('click', function(e){
+    if (colorGrabbing == true){
+        deselectDrawingBtns(penBtn);
+        changeCursor('drawing');
+        colorGrabbing = false;
+    }
+    else {
+        deselectDrawingBtns(e.target);
+        changeCursor('color-grabbing');
+        colorGrabbing = true;
+    }
 });
 
 // create a pop up for user to input custom value within selected range for grid
@@ -132,7 +145,7 @@ function setGrid(numColumns){
         const box = document.createElement('div');
         box.classList.add('box'); 
         box.classList.add('box-border'); 
-        box.style.backgroundColor = 'white';
+        box.style.backgroundColor = '#FFFFFF';
         box.addEventListener('mousedown', giveBoxSecondEventListener);
         box.addEventListener('mouseup', removeBoxSecondEventListener);
         gridParent.appendChild(box);
@@ -141,6 +154,13 @@ function setGrid(numColumns){
      + ` grid-template-rows: ${str};`); 
     }
 
+// add the class with the correct cursor to the grid parent
+function changeCursor(newCursorCssClass){
+    gridParent.classList.remove('drawing');
+    gridParent.classList.remove('erasing');
+    gridParent.classList.remove('color-grabbing');
+    gridParent.classList.add(`${newCursorCssClass}`);
+}
 // remove the selected class from all the buttons excepted the selected one 
 // passed in as the argument
 // set randomColor and grayScale to false because this code needs to be run
@@ -154,6 +174,7 @@ function deselectDrawingBtns(btn){
     btn.classList.add('selected');
     randomColor = false;
     grayScale = false;
+    colorGrabbing = false;
 }
 
 // remove the selected class from all grid size buttons and add it back to the clicked
@@ -207,8 +228,19 @@ function paintBox(event){
             square.style.backgroundColor = `rgb(${newValue}, ${newValue}, ${newValue})`;
         }
     }
+    else if (colorGrabbing == true){
+        // convert the rgb color to hex to work with the input value limitations of the 
+        // the color input
+        let rgbColor = square.style.backgroundColor; 
+        rgbColor = rgbColor.split(", ");
+        let red = Number(rgbColor[0].split("(")[1]).toString(16).padStart(2, '0');
+        let green = Number(rgbColor[1]).toString(16).padStart(2, '0');
+        let blue = Number(rgbColor[2].split(")")[0]).toString(16).padStart(2, '0');
+        let hexValue = '#' + red + green + blue;
+        input.value = hexValue;
+    }
     else {
-        event.target.style.backgroundColor = `${paintColor}`;
+        square.style.backgroundColor = `${paintColor}`;
     }
 }
 
