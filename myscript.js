@@ -7,7 +7,7 @@ let colorGrabbing = false;
 
 // select the pen and use the pen cursor when a color is picked 
 const input = document.querySelector('#color-picker');
-input.addEventListener('input', function(){
+input.addEventListener('input', () => {
     deselectDrawingBtns(penBtn);
     paintColor = input.value;
     gridParent.classList.remove('erasing');
@@ -17,7 +17,7 @@ input.addEventListener('input', function(){
 
 // event listeners for the buttons that allows the user to change the grid size
 const sizes = document.querySelectorAll('.size');
-sizes.forEach(b => b.addEventListener('click', function(e){
+sizes.forEach(b => b.addEventListener('click', (e) => {
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.style.backgroundColor = 'white');
     setGrid(Number(e.target.dataset.size));
@@ -29,7 +29,7 @@ sizes.forEach(b => b.addEventListener('click', function(e){
 
 // clear the grid by making all the boxes white
 const clearBtn = document.querySelector('#clear');
-clearBtn.addEventListener('click', function(){
+clearBtn.addEventListener('click', () => {
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.style.backgroundColor = 'white');
 });
@@ -38,7 +38,7 @@ clearBtn.addEventListener('click', function(){
 // highlight the eraser button and add the eraser cursor when eraser button pressed
 // 
 const eraserBtn = document.querySelector('#eraser');
-eraserBtn.addEventListener('click', function(e){
+eraserBtn.addEventListener('click', () => {
     paintColor = 'white';
     changeCursor('erasing');
     deselectDrawingBtns(eraserBtn);
@@ -46,7 +46,7 @@ eraserBtn.addEventListener('click', function(e){
 
 // update the appropriate elements for drawing
 const penBtn = document.querySelector('#pen');
-penBtn.addEventListener('click', function(e){
+penBtn.addEventListener('click', () => {
     paintColor = input.value;
     changeCursor('drawing');
     deselectDrawingBtns(penBtn);
@@ -54,8 +54,8 @@ penBtn.addEventListener('click', function(e){
 
 // toggle the random color boolean, and always update appropriate items for drawing
 const randomBtn = document.querySelector('#random-color');
-randomBtn.addEventListener('click', function(e){
-    if (randomColor == true){
+randomBtn.addEventListener('click', () => {
+    if (randomColor === true){
         deselectDrawingBtns(penBtn);
         randomColor = false;
     }
@@ -68,8 +68,8 @@ randomBtn.addEventListener('click', function(e){
 
 // toggle the gray scale boolean and always update appropriate items for drawing
 const grayScaleBtn = document.querySelector('#gray-scale');
-grayScaleBtn.addEventListener('click', function(e){
-    if (grayScale == true){
+grayScaleBtn.addEventListener('click', () => {
+    if (grayScale === true){
         deselectDrawingBtns(penBtn);
         grayScale = false;
     }
@@ -83,8 +83,8 @@ grayScaleBtn.addEventListener('click', function(e){
 // when the user clicks on a box, the color picker input becomes the background 
 // color of that box. this button also toggles on and off
 const colorGrabBtn = document.querySelector('#color-grabber');
-colorGrabBtn.addEventListener('click', function(e){
-    if (colorGrabbing == true){
+colorGrabBtn.addEventListener('click', (e) => {
+    if (colorGrabbing === true){
         deselectDrawingBtns(penBtn);
         changeCursor('drawing');
         colorGrabbing = false;
@@ -98,7 +98,7 @@ colorGrabBtn.addEventListener('click', function(e){
 
 // create a pop up for user to input custom value within selected range for grid
 const custom = document.querySelector('#custom');
-custom.addEventListener('click', function(e){
+custom.addEventListener('click', (e) => {
     let size;
     while (true){
         let size = Number(prompt('Input a number between 1 and 100'));
@@ -113,7 +113,7 @@ custom.addEventListener('click', function(e){
 
 // draw gridlines by giving all the boxes borders
 const gridBtn = document.querySelector('#grid');
-gridBtn.addEventListener('click', function(){
+gridBtn.addEventListener('click', () => {
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.classList.add('box-border'));
     gridBtn.classList.add('selected');
@@ -122,7 +122,7 @@ gridBtn.addEventListener('click', function(){
 
 // remove gridlines by removing borders from all boxes
 const noGridBtn = document.querySelector('#no-grid');
-noGridBtn.addEventListener('click', function(){
+noGridBtn.addEventListener('click', () => {
     let boxes = document.querySelectorAll('.box');
     boxes.forEach(b => b.classList.remove('box-border'));
     noGridBtn.classList.add('selected');
@@ -209,11 +209,11 @@ function removeBoxSecondEventListener(){
 // otherwise it makes the background color the value selected in the color input div
 function paintBox(event){
     let square = event.target;
-    if (randomColor == true){
+    if (randomColor === true){
         let hex = Math.floor((Math.random()*16777216)).toString(16);
         square.style.backgroundColor = `#${hex}`;
     }
-    else if (grayScale == true){
+    else if (grayScale === true){
         const start = 220;
         const tenth = Math.ceil(start/10);
         let grayness = Number(square.dataset.level);
@@ -228,7 +228,7 @@ function paintBox(event){
             square.style.backgroundColor = `rgb(${newValue}, ${newValue}, ${newValue})`;
         }
     }
-    else if (colorGrabbing == true){
+    else if (colorGrabbing === true){
         // convert the rgb color to hex to work with the input value limitations of the 
         // the color input
         let rgbColor = square.style.backgroundColor; 
@@ -238,6 +238,7 @@ function paintBox(event){
         let blue = Number(rgbColor[2].split(")")[0]).toString(16).padStart(2, '0');
         let hexValue = '#' + red + green + blue;
         input.value = hexValue;
+        paintColor = input.value;
     }
     else {
         square.style.backgroundColor = `${paintColor}`;
