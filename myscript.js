@@ -35,8 +35,8 @@ clearBtn.addEventListener('click', () => {
 });
 
 
-// highlight the eraser button and add the eraser cursor when eraser button pressed
-// 
+// highlight the eraser button and add the eraser cursor when eraser button 
+// pressed
 const eraserBtn = document.querySelector('#eraser');
 eraserBtn.addEventListener('click', () => {
     paintColor = 'white';
@@ -52,7 +52,8 @@ penBtn.addEventListener('click', () => {
     deselectDrawingBtns(penBtn);
 });
 
-// toggle the random color boolean, and always update appropriate items for drawing
+// toggle the random color boolean, and always update appropriate items for 
+// drawing
 const randomBtn = document.querySelector('#random-color');
 randomBtn.addEventListener('click', () => {
     if (randomColor === true){
@@ -99,7 +100,6 @@ colorGrabBtn.addEventListener('click', (e) => {
 // create a pop up for user to input custom value within selected range for grid
 const custom = document.querySelector('#custom');
 custom.addEventListener('click', (e) => {
-    let size;
     while (true){
         let size = Number(prompt('Input a number between 1 and 100'));
         if (1 <= size && size <= 100 && !isNaN(size)){
@@ -177,8 +177,8 @@ function deselectDrawingBtns(btn){
     colorGrabbing = false;
 }
 
-// remove the selected class from all grid size buttons and add it back to the clicked
-// button
+// remove the selected class from all grid size buttons and add it back to the
+//  clicked button
 function deselectGridSizeBtns(selected){
     sizes.forEach(b => b.classList.remove('selected'));
     selected.classList.add('selected');
@@ -206,7 +206,8 @@ function removeBoxSecondEventListener(){
 // if grayScale is on, then it checks the level data attribute
 // to see how many times the box has been targeted before and thus
 // how gray the box is. it then makes the box grayer if that is possible
-// otherwise it makes the background color the value selected in the color input div
+// otherwise it makes the background color the value selected in the color input
+//  div
 function paintBox(event){
     let square = event.target;
     if (randomColor === true){
@@ -225,17 +226,23 @@ function paintBox(event){
             grayness += 1;
             square.setAttribute('data-level', grayness);
             let newValue = start - tenth*grayness;
-            square.style.backgroundColor = `rgb(${newValue}, ${newValue}, ${newValue})`;
+            square.style.backgroundColor = `rgb(${newValue}, ${newValue}` +
+            `, ${newValue})`;
         }
     }
     else if (colorGrabbing === true){
-        // convert the rgb color to hex to work with the input value limitations of the 
-        // the color input
+        // convert the rgb color to hex to work with the input value limitations
+        //  of the color input
         let rgbColor = square.style.backgroundColor; 
         rgbColor = rgbColor.split(", ");
-        let red = Number(rgbColor[0].split("(")[1]).toString(16).padStart(2, '0');
-        let green = Number(rgbColor[1]).toString(16).padStart(2, '0');
-        let blue = Number(rgbColor[2].split(")")[0]).toString(16).padStart(2, '0');
+        let red = Number(rgbColor[0].split("(")[1])
+                                    .toString(16)
+                                    .padStart(2, '0');
+        let green = Number(rgbColor[1]).toString(16)
+                                    .padStart(2, '0');
+        let blue = Number(rgbColor[2].split(")")[0])
+                                    .toString(16)
+                                    .padStart(2, '0');
         let hexValue = '#' + red + green + blue;
         input.value = hexValue;
         paintColor = input.value;
